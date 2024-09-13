@@ -13,23 +13,27 @@
 
 .btn_random {
   position: absolute;
-  bottom: 17vh; left: 6vw;
-  z-index: 1000;
-  width: 8vh; height: 8vh;
-  background-color: aquamarine;
-  font-size: 20px;
+  bottom: 10vh; left: 8vw;
+  z-index: 1;
+  width: 15vh; height: 15vh;
+  background-image: url(../../assets/images/transfer.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-size: 5vh;
   font-weight: 600;
-  color: #000;
+  color: #fff;
+  text-shadow: 10px 10px 10px #000;
   border-radius: 50%;
-  border: 1px solid #000;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.4);
+  opacity: .9;
 }
 
 .selected_position {
   position: absolute;
-  width: 38vh; height: 76px;
+  width: 40vw; height: 80px;
   top: 2vh; left: 6vw;
-  z-index: 1000;
+  z-index: 1;
   background-color: #fff;
   border-radius: 10px;
   border: 1px solid #000;
@@ -37,5 +41,61 @@
   font-weight: 600;
   line-height: 34px;
   padding: 3px 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 1000px) {
+  .btn_random {
+    bottom: 6vh; left: 8vw;
+    width: 10vh; height: 10vh;
+    font-size: 3.2vh;
+  }
+
+  .selected_position {
+    width: 60vw;
+    top: 2vh; left: 6vw;
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 800px) {
+  .btn_random {
+    bottom: 6vh; left: 8vw;
+    width: 10vh; height: 10vh;
+    font-size: 3.2vh;
+  }
+
+  .selected_position {
+    width: 65vw;
+    top: 2vh; left: 6vw;
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .btn_random {
+    bottom: 6vh; left: 8vw;
+    width: 10vh; height: 10vh;
+    font-size: 3.2vh;
+  }
+
+  .selected_position {
+    width: 90vw;
+    top: 2vh; left: 6vw;
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 400px) {
+  .btn_random {
+    bottom: 6vh; left: 8vw;
+    width: 10vh; height: 10vh;
+  }
+
+  .selected_position {
+    width: 90vw; height: 64px;
+    top: 2vh; left: 6vw;
+    font-size: 16px;
+    line-height: 28px;
+  }
 }

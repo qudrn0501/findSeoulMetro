@@ -1,0 +1,29 @@
+.stn_cont {
+  position: relative;
+}
+
+.stn_box {
+  position: absolute;
+  background-color: brown;
+  opacity: 0.4;
+  border: 1px solid #000;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 30px;
+  opacity: 0;
+}
+
+.stn_nm {
+  display: none;
+  position: absolute;
+  width: 30px;
+  font-size: 6px;
+  margin: 0;
+  color: black;
+  text-overflow: ellipsis;
+}
+
+.line_nm, .stn_index {
+  display: none;
+}

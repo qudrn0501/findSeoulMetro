@@ -15,7 +15,8 @@ const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 창 열기/닫기 관리
   const [stationName, setStationName] = useState(''); // 클릭한 역 이름 관리
   const API_KEY = process.env.REACT_APP_API_KEY;
-  const url = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
+  // const url = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
+  const url = `https://cors-anywhere.herokuapp.com/http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
 
   useEffect(() => {
     fetch(url)

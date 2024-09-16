@@ -11,94 +11,81 @@ const Home = () => {
   const [isStationSelected, setIsStationSelected] = useState(true); // 역 선택 전에는 비활성화
   const [time, setTime] = useState(0); // 타이머 시간
   const [isRunning, setIsRunning] = useState(false); // 타이머 작동 여부
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const timerRef = useRef(null); // 타이머 참조용
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 창 열기/닫기 관리
   const [stationName, setStationName] = useState(''); // 클릭한 역 이름 관리
 
-  // const API_KEY = process.env.REACT_APP_API_KEY;
-  // const url = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
-
-  // useEffect(() => {
-  //   fetch(url)
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     setData(data.SearchSTNBySubwayLineInfo.row);
-  //   })
-  //   .catch(error => {
-  //     console.error("Error fetching the API: ", error);
-  //   });
-  // }, [url]); //빈 배열을 넣어 컴포넌트가 처음 렌더링될 때 한 번만 실행되도록 설정
-
-  // netlify functions 사용
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true); // API 호출 시작 시 로딩 상태로 전환
         const response = await fetch('/.netlify/functions/fetchStations');
         const data = await response.json();
         setData(data.SearchSTNBySubwayLineInfo.row);
+        setLoading(false); // 데이터 로드 완료 후 로딩 상태 해제
       } catch (error) {
         console.error("Error fetching data: ", error);
+        setLoading(false); // 에러 발생 시 로딩 상태 해제
       }
     };
   
     fetchData();
   }, []);
 
-    // 타이머 기능
-    useEffect(() => {
-      if (isRunning) {
-        timerRef.current = setInterval(() => {
-          setTime((prevTime) => prevTime + 1);
-        }, 1000);
-      } else if (!isRunning && timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-      return () => clearInterval(timerRef.current);
-    }, [isRunning]);
-  
-    const formatTime = (totalSeconds) => {
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = totalSeconds % 60;
-      return totalSeconds < 60 ? `${seconds}초` : `${minutes}분 ${seconds}초`;
-    };
+  // 타이머 기능
+  useEffect(() => {
+    if (isRunning) {
+      timerRef.current = setInterval(() => {
+        setTime((prevTime) => prevTime + 1);
+      }, 1000);
+    } else if (!isRunning && timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    return () => clearInterval(timerRef.current);
+  }, [isRunning]);
 
-    // 역 랜덤 배정 기능
-    const genRandomStation = () => {
-      let stationNumber = data.length; // 역의 총 갯수
-      let randomIndex = Math.floor(Math.random() * stationNumber) // 역의 총 갯수 중 정수 형태의 난수 1개
-      let randomStationCD = data[randomIndex]?.STATION_CD; // 결정된 난수의 역의 코드번호 호출
-      setSelectedStationCD(randomStationCD); // 역 코드의 상태 변화
-      console.log(stationNumber, randomIndex, randomStationCD);
-      setStationName(data.find((station) => station.STATION_CD === randomStationCD)?.STATION_NM); // 역 이름 저장소 상태 변화
-  
-      // 타이머 초기화 및 시작
-      setTime(0);
-      setIsRunning(true);
-      setIsStationSelected(false); // 버튼 비활성화 (역을 클릭하기 전까지)
-    };
+  const formatTime = (totalSeconds) => {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return totalSeconds < 60 ? `${seconds}초` : `${minutes}분 ${seconds}초`;
+  };
 
-    // 역 클릭 시 처리
-    const handleStnClick = (station) => {
-      console.log("Correct");
-      setIsRunning(false); // 스톱워치 멈추기
-      setIsStationSelected(true); // 역 클릭 시 랜덤 버튼 다시 활성화
-      // alert(`${station.STATION_NM}역을 찾았습니다⭕`);
-      setIsModalOpen(true); // 모달 열기
-      setStationName(station.STATION_NM); // 클릭한 역 이름 저장
-    };
+  // 역 랜덤 배정 기능
+  const genRandomStation = () => {
+    if (data.length === 0) return; // 데이터가 없으면 실행하지 않음
+    let stationNumber = data.length; // 역의 총 갯수
+    let randomIndex = Math.floor(Math.random() * stationNumber); // 역의 총 갯수 중 정수 형태의 난수 1개
+    let randomStationCD = data[randomIndex]?.STATION_CD; // 결정된 난수의 역의 코드번호 호출
+    setSelectedStationCD(randomStationCD); // 역 코드의 상태 변화
+    setStationName(data.find((station) => station.STATION_CD === randomStationCD)?.STATION_NM); // 역 이름 저장소 상태 변화
 
-    // 모달 닫기
-    const handleCloseModal = () => {
-      setIsModalOpen(false);
-    };
-  
-  // const handleClick = (e) => {
-  //   // 역 위치 좌표 확인용, background_image div에 onClick={handleClick} 
-  //   const rect = e.currentTarget.getBoundingClientRect();
-  //   let x = e.clientX - rect.left - 5;
-  //   let y = e.clientY - rect.top - 5;
-  //   console.log(y, x);
-  // }
+    // 타이머 초기화 및 시작
+    setTime(0);
+    setIsRunning(true);
+    setIsStationSelected(false); // 버튼 비활성화 (역을 클릭하기 전까지)
+  };
+
+  // 역 클릭 시 처리
+  const handleStnClick = (station) => {
+    setIsRunning(false); // 스톱워치 멈추기
+    setIsStationSelected(true); // 역 클릭 시 랜덤 버튼 다시 활성화
+    setIsModalOpen(true); // 모달 열기
+    setStationName(station.STATION_NM); // 클릭한 역 이름 저장
+  };
+
+  // 모달 닫기
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // 역 위치 좌표 확인용, background_image div에 onClick={handleClick} 
+  /*const handleClick = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    let x = e.clientX - rect.left - 5;
+    let y = e.clientY - rect.top - 5;
+    console.log(y, x);
+  }*/
 
   return (
     <div>
@@ -106,9 +93,9 @@ const Home = () => {
         <button 
           onClick={genRandomStation} 
           className={styles.btn_random} 
-          disabled={!isStationSelected} // 비활성화 상태 적용
+          disabled={loading || !isStationSelected} // 로딩 중이거나 역을 클릭하지 않았을 때 버튼 비활성화
         >
-          GO!
+          {loading ? 'Loading...' : 'GO!'} {/* 로딩 중일 때 버튼에 표시 */}
         </button>
         {selectedStationCD && (
           <div className={styles.selected_position}>
@@ -120,9 +107,9 @@ const Home = () => {
       <div className={styles.important}>
         <TransformWrapper
           initialScale={1.3}      // 초기 스케일을 부모 요소에 맞게 조정
-          minScale={1.3}          // 최소 스케일을 0.1로 설정 (너무 축소되지 않도록)
+          minScale={1.3}          // 최소 스케일을 1.3으로 설정
           maxScale={5}            // 최대 스케일 설정
-          centerZoomedOut={true}     // 초기 로드 시 중앙에 배치
+          centerZoomedOut={true}  // 초기 로드 시 중앙에 배치
           limitToBounds={true}    // 경계 내에서만 드래그 가능하게 제한
         >
           <TransformComponent>
@@ -143,7 +130,7 @@ const Home = () => {
         />
       )}
     </div>
-  )
-}
+  );
+};
 
 export default Home;

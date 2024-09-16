@@ -1,8 +1,11 @@
 exports.handler = async function(event, context) {
   try {
-    console.log("Fetching node-fetch dynamically");
-    const fetch = (await import('node-fetch')).default;  // 동적 import 사용
-    const API_KEY = process.env.API_KEY;
+    // 환경 변수 확인
+    console.log("Environment Variables: ", process.env); // 모든 환경 변수 출력
+    const fetch = (await import('node-fetch')).default;
+    const API_KEY = process.env.REACT_APP_API_KEY;
+    console.log("API_KEY: ", API_KEY); // API_KEY 값 출력
+
     
     if (!API_KEY) {
       console.error("API_KEY is missing");
@@ -12,9 +15,8 @@ exports.handler = async function(event, context) {
       };
     }
 
-    const apiUrl = `https://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
-    console.log("API URL: ", apiUrl);
-
+    // HTTP 요청 (Netlify 서버에서는 HTTP 요청 가능)
+    const apiUrl = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
     const response = await fetch(apiUrl);
     
     if (!response.ok) {
@@ -39,7 +41,6 @@ exports.handler = async function(event, context) {
 
   } catch (error) {
     console.error('Error fetching data:', error);
-
     return {
       statusCode: 500,
       body: JSON.stringify({ message: error.message }),

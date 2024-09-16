@@ -24,7 +24,7 @@
     "predeploy": "npm run build",
     "dev:webpack": "webpack-dev-server --mode development",
     "dev": "netlify dev",
-    "build": "webpack --mode production"
+    "build": "react-scripts build",
   },
   "eslintConfig": {
     "extends": [

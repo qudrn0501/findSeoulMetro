@@ -7,7 +7,7 @@ import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 const Home = () => {
   
   const [data, setData] = useState([]);
-  const [selectedStationCD, setSelectedStationCD] = useState(null);
+  const [selectedStationCD, setSelectedStationCD] = useState(null); 
   const [isStationSelected, setIsStationSelected] = useState(true); // 역 선택 전에는 비활성화
   const [time, setTime] = useState(0); // 타이머 시간
   const [isRunning, setIsRunning] = useState(false); // 타이머 작동 여부
@@ -78,14 +78,6 @@ const Home = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-  // 역 위치 좌표 확인용, background_image div에 onClick={handleClick} 
-  /*const handleClick = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    let x = e.clientX - rect.left - 5;
-    let y = e.clientY - rect.top - 5;
-    console.log(y, x);
-  }*/
 
   return (
     <div>

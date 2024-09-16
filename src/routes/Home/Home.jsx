@@ -20,16 +20,31 @@ const Home = () => {
   const API_KEY = process.env.REACT_APP_API_KEY;
   const url = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
 
+  // useEffect(() => {
+  //   fetch(url)
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     setData(data.SearchSTNBySubwayLineInfo.row);
+  //   })
+  //   .catch(error => {
+  //     console.error("Error fetching the API: ", error);
+  //   });
+  // }, [url]); //빈 배열을 넣어 컴포넌트가 처음 렌더링될 때 한 번만 실행되도록 설정
+
+  // netlify functions 사용
   useEffect(() => {
-    fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      setData(data.SearchSTNBySubwayLineInfo.row);
-    })
-    .catch(error => {
-      console.error("Error fetching the API: ", error);
-    });
-  }, [url]); //빈 배열을 넣어 컴포넌트가 처음 렌더링될 때 한 번만 실행되도록 설정
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/.netlify/functions/fetchStations');
+        const data = await response.json();
+        setData(data.SearchSTNBySubwayLineInfo.row);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
     // 타이머 기능
     useEffect(() => {

@@ -19,11 +19,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "dev:webpack": "webpack-dev-server --mode development",
+    "dev": "netlify dev",
+    "build": "webpack --mode production"
   },
   "eslintConfig": {
     "extends": [
@@ -44,7 +45,9 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.2.4"
+    "netlify-cli": "^17.36.0",
+    "tailwindcss": "^3.2.4",
+    "webpack-cli": "^5.1.4"
   },
-  "homepage": "https://qudrn0501.github.io/findSeoulMetro/"
+  "homepage": "https://findseoulmetro.netlify.app/"
 }

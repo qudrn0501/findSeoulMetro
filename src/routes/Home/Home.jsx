@@ -14,9 +14,11 @@ const Home = () => {
   const timerRef = useRef(null); // 타이머 참조용
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 창 열기/닫기 관리
   const [stationName, setStationName] = useState(''); // 클릭한 역 이름 관리
+  // const proxy = window.location.hostname === 'localhost' ? '' : '/proxy';
+  // // 해당변수는 호스트가 localhost에서 클라이언트 서버를 열면 값이 없지만 
+  // // 다른 호스트를 사용시에는 netlify.toml에 설정해둔 proxy값을 할당 받는다.
   const API_KEY = process.env.REACT_APP_API_KEY;
-  // const url = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
-  const url = `https://cors-anywhere.herokuapp.com/http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
+  const url = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
 
   useEffect(() => {
     fetch(url)

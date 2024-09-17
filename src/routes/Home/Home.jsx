@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import styles from "./Home.module.css";
 import Map from "../../component/Map/Map";
 import Modal from "../../component/Modal/Modal";
+import useViewportHeight from '../../assets/hooks/useViewportHeight';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 const Home = () => {
@@ -51,6 +52,8 @@ const Home = () => {
   //   fetchData();
   // }, []);
 
+  // 뷰포트 설정 hook
+  useViewportHeight();
 
   // 타이머 기능
   useEffect(() => {
@@ -98,6 +101,21 @@ const Home = () => {
     setIsModalOpen(false);
   };
 
+  // 웹브라우저 pinch zoom prevent
+  useEffect(() => {
+    const preventZoom = (event) => {
+      if (event.touches.length > 1) {
+        event.preventDefault();  // 두 손가락 이상일 경우 기본 동작 방지
+      }
+    };
+  
+    document.addEventListener("touchmove", preventZoom, { passive: false });
+  
+    return () => {
+      document.removeEventListener("touchmove", preventZoom);
+    };
+  }, []);
+
   // 역 위치 좌표 확인용, background_image div에 onClick={handleClick} 
   /*const handleClick = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -130,11 +148,9 @@ const Home = () => {
           maxScale={5}            // 최대 스케일 설정
           centerZoomedOut={true}  // 초기 로드 시 중앙에 배치
           limitToBounds={true}    // 경계 내에서만 드래그 가능하게 제한
-          pinch={{ disabled: false, step: 1 }}  // 두 손가락으로 확대/축소 활성화
-          zoomAnimation={{ animationTime: 150 }} // 확대 애니메이션 활성화
-          wheel={{ step: 0.1 }}
-          panning={{ velocity: false }}
+          pinch={{ disabled: false }}  // 두 손가락으로 확대/축소 활성화
           doubleClick={{ disabled: true }} // 더블 클릭 확대 방지
+          zoomAnimation={{ disabled: false }}
         >
           <TransformComponent>
             <div className={styles.background_image}>

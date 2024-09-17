@@ -1,4 +1,4 @@
 /* 모바일 웹 터치 확대축소 방지 */
 body {
-  touch-action: pan-x pan-y;
+  touch-action: none;
 }

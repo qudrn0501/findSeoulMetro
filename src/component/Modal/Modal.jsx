@@ -14,7 +14,7 @@ const Modal = ({ stationName, onClose }) => {
           {/* 클릭한 역명을 받아와 표시 */}
           <h1>{stationName}역, 정답입니다.</h1>
           <p>다시 시작하려면 창을 닫고 <br />
-            GO! 버튼을 눌러주세요.
+            START! 버튼을 눌러주세요.
           </p>
           <button
            onClick={handleCloseClick}

@@ -4,6 +4,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100% auto;
+  will-change: transform;
 }
 
 .important > div {
@@ -20,7 +21,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  font-size: 5vh;
+  font-size: 3vh;
   font-weight: 600;
   color: #fff;
   text-shadow: 10px 10px 10px #000;
@@ -44,16 +45,26 @@
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
+.zoom_controls {
+ position: absolute;
+ bottom: 5vh; right: 5vh;
+ display: flex;
+ flex-direction: column;
+ width: 50px;
+ height: 25px;
+ font-size: 20px;
+}
+
 @media (max-width: 1000px) {
   .btn_random {
     bottom: 6vh; left: 8vw;
     width: 10vh; height: 10vh;
-    font-size: 3.2vh;
+    font-size: 2.4vh;
   }
 
   .selected_position {
     width: 60vw;
-    top: 2vh; left: 6vw;
+    top: 4vh; left: 6vw;
     font-size: 22px;
   }
 }
@@ -62,12 +73,12 @@
   .btn_random {
     bottom: 6vh; left: 8vw;
     width: 10vh; height: 10vh;
-    font-size: 3.2vh;
+    font-size: 2.4vh;
   }
 
   .selected_position {
     width: 65vw;
-    top: 2vh; left: 6vw;
+    top: 8vh; left: 6vw;
     font-size: 22px;
   }
 }
@@ -76,12 +87,12 @@
   .btn_random {
     bottom: 6vh; left: 8vw;
     width: 10vh; height: 10vh;
-    font-size: 3.2vh;
+    font-size: 2.4vh;
   }
 
   .selected_position {
     width: 90vw;
-    top: 2vh; left: 6vw;
+    top: 8vh; left: 6vw;
     font-size: 22px;
   }
 }
@@ -94,7 +105,7 @@
 
   .selected_position {
     width: 90vw; height: 64px;
-    top: 2vh; left: 6vw;
+    top: 8vh; left: 6vw;
     font-size: 16px;
     line-height: 28px;
   }

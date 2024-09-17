@@ -51,6 +51,7 @@ const Home = () => {
   //   fetchData();
   // }, []);
 
+
   // 타이머 기능
   useEffect(() => {
     if (isRunning) {
@@ -113,7 +114,7 @@ const Home = () => {
           className={styles.btn_random} 
           disabled={loading || !isStationSelected} // 로딩 중이거나 역을 클릭하지 않았을 때 버튼 비활성화
         >
-          {loading ? 'Loading...' : 'GO!'} {/* 로딩 중일 때 버튼에 표시 */}
+          {loading ? 'Loading...' : 'START!'} {/* 로딩 중일 때 버튼에 표시 */}
         </button>
         {selectedStationCD && (
           <div className={styles.selected_position}>
@@ -129,6 +130,11 @@ const Home = () => {
           maxScale={5}            // 최대 스케일 설정
           centerZoomedOut={true}  // 초기 로드 시 중앙에 배치
           limitToBounds={true}    // 경계 내에서만 드래그 가능하게 제한
+          pinch={{ disabled: false, step: 1 }}  // 두 손가락으로 확대/축소 활성화
+          zoomAnimation={{ animationTime: 150 }} // 확대 애니메이션 활성화
+          wheel={{ step: 0.1 }}
+          panning={{ velocity: false }}
+          doubleClick={{ disabled: true }} // 더블 클릭 확대 방지
         >
           <TransformComponent>
             <div className={styles.background_image}>

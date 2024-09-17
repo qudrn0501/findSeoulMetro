@@ -17,39 +17,39 @@ const Home = () => {
   const [stationName, setStationName] = useState(''); // 클릭한 역 이름 관리
 
   // 로컬 api 요청
-  const API_KEY = process.env.REACT_APP_API_KEY;
-  const url = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
+  // const API_KEY = process.env.REACT_APP_API_KEY;
+  // const url = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/SearchSTNBySubwayLineInfo/1/1000/`;
 
-  useEffect(() => {
-    fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      setData(data.SearchSTNBySubwayLineInfo.row);
-      setLoading(false); // 데이터 로드 완료 후 로딩 상태 해제
-    })
-    .catch(error => {
-      console.error("Error fetching the API: ", error);
-      setLoading(false); // 에러 발생 시 로딩 상태 해제
-    });
-  }, [url]); //빈 배열을 넣어 컴포넌트가 처음 렌더링될 때 한 번만 실행되도록 설정
+  // useEffect(() => {
+  //   fetch(url)
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     setData(data.SearchSTNBySubwayLineInfo.row);
+  //     setLoading(false); // 데이터 로드 완료 후 로딩 상태 해제
+  //   })
+  //   .catch(error => {
+  //     console.error("Error fetching the API: ", error);
+  //     setLoading(false); // 에러 발생 시 로딩 상태 해제
+  //   });
+  // }, [url]); //빈 배열을 넣어 컴포넌트가 처음 렌더링될 때 한 번만 실행되도록 설정
 
   // 운영 api 요청
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoading(true); // API 호출 시작 시 로딩 상태로 전환
-  //       const response = await fetch('/.netlify/functions/fetchStations');
-  //       const data = await response.json();
-  //       setData(data.SearchSTNBySubwayLineInfo.row);
-  //       setLoading(false); // 데이터 로드 완료 후 로딩 상태 해제
-  //     } catch (error) {
-  //       console.error("Error fetching data: ", error);
-  //       setLoading(false); // 에러 발생 시 로딩 상태 해제
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true); // API 호출 시작 시 로딩 상태로 전환
+        const response = await fetch('/.netlify/functions/fetchStations');
+        const data = await response.json();
+        setData(data.SearchSTNBySubwayLineInfo.row);
+        setLoading(false); // 데이터 로드 완료 후 로딩 상태 해제
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+        setLoading(false); // 에러 발생 시 로딩 상태 해제
+      }
+    };
   
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
 
   // 타이머 기능
